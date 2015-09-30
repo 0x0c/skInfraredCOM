@@ -1,0 +1,18 @@
+#######################################
+# Syntax Coloring Map For skDigitalCtl
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+skInfraredCOM	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+RemoconSW	KEYWORD2
+Send	KEYWORD2
+Recive	KEYWORD2
+
