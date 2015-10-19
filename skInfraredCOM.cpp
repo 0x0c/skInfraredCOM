@@ -120,8 +120,11 @@ int skInfraredCOM::Recive(unsigned char MyDeviceNo)
 	if (digitalRead(RcvPinNo) == LOW) {
 		// 現在の時刻(us)を得る
 		t = micros();
-		while (digitalRead(RcvPinNo) == LOW && micros() - t < 4500) {
+		while (digitalRead(RcvPinNo) == LOW) {
 			// HIGH(ON)になるまで待つ
+			if (micros() - t >= 50000) {
+				return 0;
+			}
 		}
 
 		// LOW(OFF)の部分をはかる
@@ -136,13 +139,19 @@ int skInfraredCOM::Recive(unsigned char MyDeviceNo)
 		// データ部の読み込み
 		while (1) {
 			t = micros();
-			while(digitalRead(RcvPinNo) == LOW && micros() - t < 1000) {
+			while(digitalRead(RcvPinNo) == LOW) {
 				// OFF部分は読み飛ばす
+				if (micros() - t > 50000) {
+					return 0;
+				}
 			}
 
 			t = micros();
-			while(digitalRead(RcvPinNo) == HIGH && micros() - t < 1000) {
+			while(digitalRead(RcvPinNo) == HIGH) {
 				// LOW(FF)になるまで待つ
+				if (micros() - t > 50000) {
+					return 0;
+				}
 			}
 
 			t = micros() - t;					// HIGH(ON)部分の長さをはかる
